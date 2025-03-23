@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import SearchBar from './components/searchBar';
 import { searchParts } from './api/searchParts';
 import './App.css';
-import { compileAst } from 'tailwindcss';
 
 /**
  * 1) Extract specs from an item (skipping "Additional Info").
@@ -208,7 +207,6 @@ function App() {
   const [page, setPage] = useState(0);
   const [lastQuery, setLastQuery] = useState('');
   const [lastCategory, setLastCategory] = useState('');
-  const [PrevCategory, setPrevCategory] = useState('');
   const [warnOnCategorySwitch, setWarnOnCategorySwitch] = useState(true);
   const isInCompareList = (item: any) => {
     const key = getUniqueKey(item);
@@ -241,7 +239,6 @@ function App() {
       setCompareList([]);
     }
   
-    setPrevCategory(lastCategory);
     setLastQuery(query);
     setLastCategory(category);
     setPage(0);

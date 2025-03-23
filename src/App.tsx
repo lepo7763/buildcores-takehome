@@ -24,24 +24,24 @@ function App() {
     });
   };
 
-  const handleSearch = async (query: string, category: string) => {
+  const handleSearch = async (query: string = lastQuery, category: string = lastCategory, skip: number = page * 20) => {
     setLastCategory(category);
     setLastQuery(query);
 
     try {
-      const skipValue = page * 20;
-      const res = await searchParts(query, category, skipValue);
-      console.log('API Response: ', res);
+      const res = await searchParts(query, category, skip);
       setResults(res.data);
-    } catch (err) {
-      console.error('Search failed:', err);
+
+    } 
+    catch (err) {
+      console.error("Search failed", err);
     }
   };
 
   // If page changes, re-run the same search with the new skip
   useEffect(() => {
-    if (lastQuery) {
-      handleSearch(lastQuery, lastCategory);
+    if (lastQuery && lastCategory) {
+      handleSearch(lastQuery, lastCategory, page * 20);
     }
   }, [page]);
 
@@ -241,6 +241,34 @@ function App() {
         return <p>No specs available for this category.</p>;
     }
   };
+
+  const getMainSpecForCategory = (item: any) => {
+    const category = item.part_category || '';
+    const f = item.v2Fields || {};
+
+    switch (category) {
+      case 'PCCase':
+        return f.form_factor || '—';
+      case 'CPU':
+        return `${f.cores?.total || '—'} Cores`;
+      case 'Motherboard':
+        return f.chipset || '—';
+      case 'GPU':
+        return `${f.memory || '—'} VRAM`;
+      case 'RAM':
+        return `${f.capacity || '—'} ${f.ram_type || ''}`;
+      case 'CPUCooler':
+        return item.airCooled ? 'Air' : item.waterCooled ? 'Water' : '—';
+      case 'Storage':
+        return `${f.capacity || '—'} ${f.type || ''}`;
+      case 'PSU':
+        return `${f.wattage || '—'}W`;
+      case 'CaseFan':
+        return `${f.size || '—'}mm`;
+      default:
+        return '—';
+    }
+  };
   
 
   return (
@@ -261,7 +289,7 @@ function App() {
           </thead>
           <tbody>
             {results.map((item, idx) => {
-              const formFactor = item.v2Fields?.form_factor || '—';
+              const formFactor = getMainSpecForCategory(item);
               const price = item.price !== undefined ? `$${item.price}` : '—';
               const isExpanded = expandedRows.includes(idx);
 
@@ -315,8 +343,15 @@ function App() {
         >
           Prev
         </button>
-        <span style={{ margin: '0 1rem' }}>Page: {page + 1}</span>
-        <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
+        <span style = {{margin: '0 1rem' }}>
+          Showing {page * 20 + 1} - {page * 20 + results.length}
+        </span>
+        <button 
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={results.length > 20}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

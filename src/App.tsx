@@ -208,6 +208,7 @@ function App() {
   const [lastQuery, setLastQuery] = useState('');
   const [lastCategory, setLastCategory] = useState('');
   const [PrevCategory, setPrevCategory] = useState('');
+  const [warnOnCategorySwitch, setWarnOnCategorySwitch] = useState(true);
 
   // Track which rows are expanded
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
@@ -379,7 +380,11 @@ function App() {
   return (
     <div>
       <h1 className="text-xl font-bold p-4">Compare Buildcores PC Components</h1>
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar 
+        onSearch={handleSearch}
+        warnOnCategorySwitch={warnOnCategorySwitch}
+        setWarnOnCategorySwitch={setWarnOnCategorySwitch}
+      />
 
       {/* Table container */}
       <div className="table-container">

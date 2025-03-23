@@ -2,9 +2,11 @@ import React, {useState} from 'react';
 
 type Props = {
     onSearch: (query: string, category: string) => void;
+    warnOnCategorySwitch: boolean;
+    setWarnOnCategorySwitch: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SearchBar: React.FC<Props> = ({onSearch}) => {
+const SearchBar: React.FC<Props> = ({onSearch, warnOnCategorySwitch, setWarnOnCategorySwitch}) => {
     const [value, setValue] = useState('');
     const [category, setCategory] = useState('PCCase');
 
@@ -41,6 +43,13 @@ const SearchBar: React.FC<Props> = ({onSearch}) => {
             
             <button type="submit" className='ml-2 p-2 bg-blue-500 text-white rounded'>
                 Search
+            </button>
+
+            <button 
+                onClick={() => setWarnOnCategorySwitch((prev) => !prev)}
+                style={{margin: '1rem', padding: '0.5rem 1rem'}}
+            >
+                {warnOnCategorySwitch ? 'Disable Category Switch Warning' : 'Enable Category Switch Warning'}
             </button>
         </form>
     );

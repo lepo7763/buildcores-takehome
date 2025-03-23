@@ -4,7 +4,7 @@ type Props = {
     onSearch: (query: string, category: string) => void;
 };
 
-const searchBar: React.FC<Props> = ({onSearch}) => {
+const SearchBar: React.FC<Props> = ({onSearch}) => {
     const [value, setValue] = useState('');
     const [category, setCategory] = useState('PCCase');
 
@@ -46,4 +46,4 @@ const searchBar: React.FC<Props> = ({onSearch}) => {
     );
 };
 
-export default searchBar
+export default SearchBar

@@ -1,8 +1,8 @@
-export const searchParts = async (query: string) => {
+export const searchParts = async (query: string, category: string) => {
     const payload = {
       filters: [],
       limit: 20,
-      part_category: "PCCase",
+      part_category: category,
       search_query: query.trim(),
       show_disabled_interactive_models: true,
       show_interactive_first: false,

@@ -4,9 +4,9 @@ import { searchParts } from './api/searchParts';
 
 function App() {
   const [results, setResults] = useState<any[]>([]);
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (query: string, category: string) => {
     try {
-      const res = await searchParts(query);
+      const res = await searchParts(query, category);
       console.log('API Response: ', res);
       setResults(res.data);
     

@@ -27,22 +27,24 @@ body, #root {
 
 /* The hidden dropdown specs container */
 .card-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%; /* below the card */
-  left: 0;
-  width: 100%;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  background: white;
   padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
 }
 
-/* Reveal dropdown on hover */
 .item-card:hover .card-dropdown {
   display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
+
 
 /* The Add to Compare button */
 .item-card .compare-btn {
@@ -59,3 +61,12 @@ body, #root {
 .compare-btn:hover {
   background: #45a049;
 }
+
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+

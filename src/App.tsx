@@ -220,7 +220,7 @@ function App() {
       <h1 className="text-xl font-bold p-4">Buildcores Compare</h1>
       <SearchBar onSearch={handleSearch} />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+      <div className="results-container">
         {results.map((item, idx) => {
           console.log('Product Item', item);
 

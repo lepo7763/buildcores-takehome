@@ -1,9 +1,11 @@
-/* Center the entire page/container */
+/* Dark background + light text on the body */
 body, #root {
+  background-color: #1a1a1a; /* Dark gray/charcoal */
+  color: #f0f0f0;           /* Lighter text color */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* or center if you want vertical centering too */
+  justify-content: flex-start;
   min-height: 100vh;
   margin: 0;
   padding: 2rem;
@@ -11,49 +13,50 @@ body, #root {
   text-align: center;
 }
 
-/* A card that shows a dropdown on hover */
+/* Item card with a slightly lighter dark background */
 .item-card {
   position: relative;
   width: 300px;
   margin-bottom: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #444;   /* Darker border */
   border-radius: 6px;
-  background: #fff;
+  background: #2a2a2a;      /* Slightly lighter than body */
+  color: #f0f0f0;
   transition: box-shadow 0.2s ease;
   padding: 1rem;
 }
 
 .item-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
-/* The hidden dropdown specs container */
+/* Dropdown with an even lighter dark background + subtle border */
 .card-dropdown {
-  display: none; /* Hidden by default */
+  display: none;
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
-  background: white;
+  background: #3a3a3a;      /* A bit lighter than .item-card */
   padding: 1rem;
   border-radius: 6px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border: 1px solid #555;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.8);
   z-index: 10;
   text-align: left;
+  color: #f0f0f0;
 }
 
 .item-card:hover .card-dropdown {
   display: block;
 }
 
-
-/* The Add to Compare button */
+/* Button with a darkish accent color */
 .item-card .compare-btn {
   display: inline-block;
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background: #4CAF50;
+  background: #00a676;      /* Teal accent */
   color: #fff;
   border-radius: 4px;
   text-decoration: none;
@@ -61,9 +64,10 @@ body, #root {
   cursor: pointer;
 }
 .compare-btn:hover {
-  background: #45a049;
+  background: #009968;
 }
 
+/* Container spacing as before */
 .results-container {
   display: flex;
   flex-wrap: wrap;
@@ -71,4 +75,3 @@ body, #root {
   justify-content: center;
   margin-top: 2rem;
 }
-

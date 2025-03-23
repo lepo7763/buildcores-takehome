@@ -274,6 +274,10 @@ function App() {
     }
   }, [page, lastQuery, lastCategory]);
 
+  useEffect(() => {
+    setCompareList([]);
+  }, [lastCategory]);
+
   // Render a single field for the expanded row (details)
   const renderField = (label: string, value: any) => {
     let displayValue = value;

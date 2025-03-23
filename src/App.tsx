@@ -1,21 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchBar from './components/searchBar';
 import { searchParts } from './api/searchParts';
 import './App.css';
 
 function App() {
   const [results, setResults] = useState<any[]>([]);
+  const [page, setPage] = useState(0);
+  const [lastQuery, setLastQuery] = useState('');
+  const [lastCategory, setLastCategory] = useState('');
   const handleSearch = async (query: string, category: string) => {
+    setLastCategory(category);
+    setLastQuery(query);
     try {
-      const res = await searchParts(query, category);
+      const skipValue = page * 20;
+      const res = await searchParts(query, category, skipValue);
       console.log('API Response: ', res);
       setResults(res.data);
-    
     } 
     catch (err) {
       console.error('Search failed:', err);
     }
   };
+
+  useEffect(() => {
+    if (lastQuery) {
+      handleSearch(lastQuery, lastCategory);
+    }
+  }, [page]);
   
   const renderField = (label: string, value: any) => {
     let displayValue = value;
@@ -32,9 +43,6 @@ function App() {
       </div>
     );
   };
-  
-  
-
 
   const renderSpecs = (item: any, category: string) => {
     const f = item.v2Fields || {};
@@ -237,6 +245,17 @@ function App() {
           );
         })}
       </div>
+      <div className="pagination-controls" style={{ marginTop: '1rem' }}>
+        <button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+          disabled={page === 0}
+        >
+          Prev
+        </button>
+        <span style={{ margin: '0 1rem' }}>Page: {page + 1}</span>
+        <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
+      </div>
+
     </div>
   );
 }

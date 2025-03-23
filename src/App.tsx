@@ -555,7 +555,7 @@ function App() {
               const isExpanded = expandedRows.includes(idx);
 
               return (
-                <React.Fragment key={getUniqueKey(item)}>
+                <React.Fragment key={idx}>
                   {/* Main row */}
                   <tr>
                     <td className="td-name">

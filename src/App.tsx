@@ -24,15 +24,21 @@ function App() {
     });
   };
 
-  const handleSearch = async (query: string = lastQuery, category: string = lastCategory, skip: number = page * 20) => {
-    setLastCategory(category);
+  const handleSearch = async (query: string, category: string) => {
     setLastQuery(query);
+    setLastCategory(category);
+    setPage(0);
+  };
+
+  const fetchPageData = async () => {
+    if (!lastQuery || !lastCategory) return;
 
     try {
-      const res = await searchParts(query, category, skip);
+      const skipValue = page * 20;
+      const res = await searchParts(lastQuery, lastCategory, skipValue);
       setResults(res.data);
 
-    } 
+    }
     catch (err) {
       console.error("Search failed", err);
     }
@@ -40,10 +46,8 @@ function App() {
 
   // If page changes, re-run the same search with the new skip
   useEffect(() => {
-    if (lastQuery && lastCategory) {
-      handleSearch(lastQuery, lastCategory, page * 20);
-    }
-  }, [page]);
+    fetchPageData();
+  }, [page, lastQuery, lastCategory]);
 
   // Render a single field as Label: Value
   const renderField = (label: string, value: any) => {
@@ -273,7 +277,7 @@ function App() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold p-4">Buildcores Compare</h1>
+      <h1 className="text-xl font-bold p-4">Compare Buildcores PC Components</h1>
       <SearchBar onSearch={handleSearch} />
 
       {/* Table container */}

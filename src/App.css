@@ -13,12 +13,14 @@ body, #root {
 
 /* A card that shows a dropdown on hover */
 .item-card {
-  position: relative; /* so the dropdown can be absolutely positioned inside */
+  position: relative;
   width: 300px;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
+  background: #fff;
   transition: box-shadow 0.2s ease;
+  padding: 1rem;
 }
 
 .item-card:hover {
@@ -27,22 +29,22 @@ body, #root {
 
 /* The hidden dropdown specs container */
 .card-dropdown {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
   background: white;
   padding: 1rem;
   border-radius: 6px;
   border: 1px solid #ddd;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  position: absolute;
-  top: 100%;
-  left: 0;
   z-index: 10;
+  text-align: left;
 }
 
 .item-card:hover .card-dropdown {
   display: block;
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
 }
 
 

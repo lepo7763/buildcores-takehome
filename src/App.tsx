@@ -275,7 +275,14 @@ function App() {
   }, [page, lastQuery, lastCategory]);
 
   useEffect(() => {
-    setCompareList([]);
+    if (compareList.length > 0) {
+      const confirmReset = window.confirm("Switching categories will clear your current comparisons. Continue?");
+      if (!confirmReset) {
+        setLastCategory(prev => prev);
+        return;
+      }
+      setCompareList([]);
+    }
   }, [lastCategory]);
 
   // Render a single field for the expanded row (details)

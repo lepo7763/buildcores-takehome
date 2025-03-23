@@ -46,7 +46,7 @@ function App() {
             {renderField('Form Factor', f.form_factor)}
             {renderField('Side Panel', f.side_panel)}
             {renderField('Power Supply', f.power_supply)}
-            {renderField('Max GPU Length', f.max_video_card_length)}
+            {renderField('Max GPU Length', f.max_video_card_length + ' mm')}
             {renderField('Max CPU Cooler Height', f.max_cpu_cooler_height)}
             {renderField('3.5" Bays', f.internal_3_5_bays)}
             {renderField('2.5" Bays', f.internal_2_5_bays)}
@@ -225,15 +225,14 @@ function App() {
           console.log('Product Item', item);
 
           return (
-            <div key={idx} className="bg-white border border-gray-200 shadow-sm rounded-lg p-4 flex flex-col justify-between">
-            <h2 className="font-semibold text-lg mb-2">{item.name}</h2>
-            <div className="text-sm text-gray-700 space-y-1">
-              {renderSpecs(item, item.part_category || "PCCase")}
+            <div key={idx} className="item-card">
+              <h2 className="font-semibold text-lg p-4">{item.name}</h2>
+  
+              <div className="card-dropdown text-sm text-gray-700 space-y-1">
+                {renderSpecs(item, item.part_category || "PCCase")}
+                <button className="compare-btn">Add to Compare</button>
+              </div>
             </div>
-            <button className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded">
-              Add to Compare
-            </button>
-          </div>
           );
         })}
       </div>

@@ -1,42 +1,61 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/* Center the entire page/container */
+body, #root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* or center if you want vertical centering too */
+  min-height: 100vh;
+  margin: 0;
   padding: 2rem;
+  box-sizing: border-box;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* A card that shows a dropdown on hover */
+.item-card {
+  position: relative; /* so the dropdown can be absolutely positioned inside */
+  width: 300px;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: box-shadow 0.2s ease;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.item-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* The hidden dropdown specs container */
+.card-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%; /* below the card */
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  padding: 1rem;
 }
 
-.card {
-  padding: 2em;
+/* Reveal dropdown on hover */
+.item-card:hover .card-dropdown {
+  display: block;
 }
 
-.read-the-docs {
-  color: #888;
+/* The Add to Compare button */
+.item-card .compare-btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: #4CAF50;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.compare-btn:hover {
+  background: #45a049;
 }

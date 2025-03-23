@@ -47,7 +47,7 @@ function App() {
   // If page changes, re-run the same search with the new skip
   useEffect(() => {
     console.log("Fetching page data for:", lastQuery, lastCategory, page);
-    if (lastQuery && lastCategory) {
+    if (lastCategory) {
       fetchPageData();
     }
   }, [page, lastQuery, lastCategory]);

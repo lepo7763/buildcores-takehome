@@ -207,6 +207,7 @@ function App() {
   const [page, setPage] = useState(0);
   const [lastQuery, setLastQuery] = useState('');
   const [lastCategory, setLastCategory] = useState('');
+  const [PrevCategory, setPrevCategory] = useState('');
 
   // Track which rows are expanded
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
@@ -224,6 +225,7 @@ function App() {
   };
 
   const handleSearch = (query: string, category: string) => {
+    setPrevCategory(lastCategory);
     setLastQuery(query);
     setLastCategory(category);
     setPage(0);
@@ -278,7 +280,7 @@ function App() {
     if (compareList.length > 0) {
       const confirmReset = window.confirm("Switching categories will clear your current comparisons. Continue?");
       if (!confirmReset) {
-        setLastCategory(prev => prev);
+        setLastCategory(PrevCategory);
         return;
       }
       setCompareList([]);

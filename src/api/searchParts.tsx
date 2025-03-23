@@ -13,6 +13,9 @@ export const searchParts = async (query: string) => {
             sort: 0,
         }),
     });
-    const data = await res.json();
-    return data;
+    if (!res.ok) {
+        console.error('Failed to fetch:', res.status);
+        throw new Error('API request failed');
+    }
+    return res.json();
 };

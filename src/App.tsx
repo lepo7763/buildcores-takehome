@@ -5,9 +5,15 @@ import { searchParts } from './api/searchParts';
 function App() {
   const [results, setResults] = useState<any[]>([]);
   const handleSearch = async (query: string) => {
-    const res = await searchParts(query);
-    setResults(res.data);
-
+    try {
+      const res = await searchParts(query);
+      console.log('API Response: ', res);
+      setResults(res.data);
+    
+    } 
+    catch (err) {
+      console.error('Search failed:', err);
+    }
   };
 
   return (

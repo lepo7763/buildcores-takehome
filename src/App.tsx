@@ -571,7 +571,7 @@ function App() {
                             objectFit: 'cover',
                           }}
                         />
-                        <span>{item.name}</span>
+                        <span>{item.name || item.v2Fields?.metadata?.name}</span>
                       </div>
                     </td>
                     <td>{formFactor}</td>
@@ -669,10 +669,10 @@ function ComparisonChart({
           <tr>
             <th>Specs</th>
             {items.map((item) => {
-              const key = item.id || item.name;
+              const key = item.id || item.name || item.v2Fields?.metadata?.name;
               return (
                 <th key={key}>
-                  {item.name}
+                  {item.name || item.v2Fields?.metadata?.name}
                   &nbsp;
                   <button onClick={() => onRemoveItem(item)}>✕</button>
                 </th>

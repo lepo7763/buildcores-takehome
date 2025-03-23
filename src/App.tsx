@@ -44,14 +44,21 @@ function App() {
   };
 
   const handleAddToCompare = (item: any) => {
-    // Only add if not already in compareList
-    if (!compareList.find((compItem) => compItem.id === item.id)) {
+    const key = item.id || `${item.name}-${item.price}-${item.part_category}`;
+    if (!compareList.find((compItem) => 
+      (compItem.id || `${compItem.name}-${compItem.price}-${compItem.part_category}`) === key
+    )) {
       setCompareList((prev) => [...prev, item]);
     }
   };
 
-  const handleRemoveFromCompare = (itemId: string) => {
-    setCompareList((prev) => prev.filter((compItem) => compItem.id !== itemId));
+  const handleRemoveFromCompare = (itemToRemove: any) => {
+    const key = itemToRemove.id || `${itemToRemove.name}-${itemToRemove.price}-${itemToRemove.part_category}`;
+    setCompareList((prev) =>
+      prev.filter((compItem) =>
+        (compItem.id || `${compItem.name}-${compItem.price}-${compItem.part_category}`) !== key
+      )
+    );
   };
 
   useEffect(() => {
@@ -323,7 +330,7 @@ function App() {
                         <span>{item.name}</span>
                       </div>
                     </td>
-                    <td>{formFactor}</td> /*TODO: UPDATE THIS RESPECTIVE TO CATEGORY */
+                    <td>{formFactor}</td> 
                     <td>{price}</td>
                     <td>
                       <button onClick={() => handleToggleRow(idx)}>
@@ -386,7 +393,7 @@ function ComparisonChart({
   onRemoveItem,
 }: {
   items: any[];
-  onRemoveItem: (id: string) => void;
+  onRemoveItem: (item: any) => void;
 }) {
   if (items.length === 0) return null;
 
@@ -398,10 +405,10 @@ function ComparisonChart({
           <tr>
             <th>Specs</th>
             {items.map((item) => (
-              <th key={item.id}>
+              <th key={item.name}>
                 {item.name}
                 &nbsp;
-                <button onClick={() => onRemoveItem(item.id)}>✕</button>
+                <button onClick={() => onRemoveItem(item)}>✕</button>
               </th>
             ))}
           </tr>
@@ -411,7 +418,7 @@ function ComparisonChart({
           <tr>
             <td>Price</td>
             {items.map((item) => (
-              <td key={item.id}>
+              <td key={item.name}>
                 {item.price ? `$${item.price}` : '—'}
               </td>
             ))}
@@ -421,7 +428,7 @@ function ComparisonChart({
           <tr>
             <td>Form Factor</td>
             {items.map((item) => (
-              <td key={item.id}>
+              <td key={item.name}>
                 {item.v2Fields?.form_factor ?? '—'}
               </td>
             ))}

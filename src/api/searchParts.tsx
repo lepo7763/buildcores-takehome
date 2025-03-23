@@ -1,14 +1,19 @@
-export const searchParts = async (_query: string) => {
+export const searchParts = async (query: string) => {
     const payload = {
       filters: [],
       limit: 20,
       part_category: "PCCase",
-      search_query: "nzxt", // hardcoded for testing
+      search_query: query.trim(),
       show_disabled_interactive_models: true,
       show_interactive_first: false,
       skip: 0,
       sort: 0
     };
+
+    if (!query.trim()) {
+        console.warn("Empty query");
+        return {data: []};
+    }
   
     console.log("Sending payload to API:", payload); // log for debug
   
@@ -27,7 +32,7 @@ export const searchParts = async (_query: string) => {
     }
   
     const data = await res.json();
-    console.log("API response:", data); // log full response
+    console.log("API response:", data); 
     return data;
   };
   

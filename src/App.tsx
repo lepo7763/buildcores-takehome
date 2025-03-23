@@ -31,7 +31,7 @@ function App() {
   };
 
   const fetchPageData = async () => {
-    if (!lastQuery.trim() || !lastCategory) return;
+    if (!lastCategory) return;
 
     try {
       const skipValue = page * 20;

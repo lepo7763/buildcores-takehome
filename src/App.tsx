@@ -203,7 +203,10 @@ const renderSpecs = (item: any, category: string) => {
       <SearchBar onSearch={handleSearch} />
 
       <div className="grid grid-cols-2 gap-4 p-4">
-        {results.map((item, idx) => (
+        {results.map((item, idx) => {
+          console.log('Product Item', item);
+
+          return (
           <div key={idx} className="border p-2 rounded shadow">
             <h2>{item.name}</h2>
             {renderSpecs(item, item.part_category || 'PCCase')}
@@ -211,7 +214,8 @@ const renderSpecs = (item: any, category: string) => {
               Add to Compare
             </button>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

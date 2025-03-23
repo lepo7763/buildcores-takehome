@@ -213,29 +213,29 @@ function App() {
     return compareList.some((compItem) => getUniqueKey(compItem) === key);
   }
 
-  // Track which rows are expanded
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
 
   const handleToggleRow = (rowIndex: number) => {
     setExpandedRows((prev) => {
       if (prev.includes(rowIndex)) {
-        // If currently expanded, collapse it
+        
         return prev.filter((idx) => idx !== rowIndex);
       } else {
-        // Otherwise expand it
         return [...prev, rowIndex];
       }
     });
   };
 
   const handleSearch = (query: string, category: string) => {
-    if (
-      compareList.length > 0 &&
-      category !== lastCategory &&
-      warnOnCategorySwitch
-    ) {
-      const confirmed = window.confirm("Switching categories will clear your current comparisons. Continue?");
-      if (!confirmed) return;
+    const isDifferentCategory = category !== lastCategory;
+  
+    if (compareList.length > 0 && isDifferentCategory) {
+      if (warnOnCategorySwitch) {
+        const confirmed = window.confirm(
+          "Switching categories will clear your current comparisons. Continue?"
+        );
+        if (!confirmed) return;
+      }
       setCompareList([]);
     }
   
@@ -243,6 +243,7 @@ function App() {
     setLastCategory(category);
     setPage(0);
   };
+  
   
 
   const fetchPageData = async () => {
@@ -290,7 +291,6 @@ function App() {
     }
   }, [page, lastQuery, lastCategory]);
 
-  // Render a single field for the expanded row (details)
   const renderField = (label: string, value: any) => {
     let displayValue = value;
     if (typeof value === 'boolean') {
@@ -314,9 +314,9 @@ function App() {
    * Additional Info, if desired.
    */
   const renderSpecs = (item: any) => {
-    // same code you had before...
     const category = item.part_category || 'PCCase';
     const f = item.v2Fields || {};
+    const meta = f.metadata || {};
 
     switch (category) {
       case 'PCCase':
@@ -339,9 +339,157 @@ function App() {
           </>
         );
 
-      // ...snip... (same logic you used for CPU, Motherboard, GPU, etc.)
-      // For brevity, I'm not re-pasting all your cases—just keep them as is.
-      // Or copy them directly from your code.
+        case 'CPU':
+          return (
+            <>
+              {renderField('Series', f.series || meta.series)}
+              {renderField('Microarchitecture', item.microarchitecture)}
+              {renderField('Core Family', item.coreFamily)}
+              {renderField('Socket', item.socket)}
+              {renderField('Total Cores', f.cores?.total)}
+              {renderField('P-Cores', f.cores?.performance)}
+              {renderField('Threads', f.cores?.threads)}
+              {renderField('Base Clock', f.clocks?.performance?.base)}
+              {renderField('Boost Clock', f.clocks?.performance?.boost)}
+              {renderField('Cache L3', f.cache?.l3)}
+              {renderField('TDP', f.specifications?.tdp)}
+              {renderField('Integrated Graphics', f.specifications?.integratedGraphics?.model)}
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
+    
+        case 'Motherboard':
+          return (
+            <>
+              {renderField('Socket', item.socket)}
+              {renderField('Form Factor', item.formFactor || f.form_factor)}
+              {renderField('Chipset', item.chipset)}
+              {renderField('Memory Type', f.memory?.ram_type)}
+              {renderField('Memory Slots', f.memory?.slots)}
+              {renderField('Max Memory', f.memory?.max)}
+              {renderField('SATA 6Gb/s', f.storage_devices?.sata_6_gb_s)}
+              {renderField('SATA 3Gb/s', f.storage_devices?.sata_3_gb_s)}
+              {renderField('U.2 Ports', f.storage_devices?.u2)}
+              {renderField('PCIe Slots', item.pcie_x16_slots)}
+              {renderField('M.2 Slots', item.m2_slots)}
+              {renderField('2.5G LAN', item.ethernet)}
+              {renderField('USB 2.0', f.usb_headers?.usb_2_0)}
+              {renderField('USB 3.2 Gen 1', f.usb_headers?.usb_3_2_gen_1)}
+              {renderField('USB 3.2 Gen 2', f.usb_headers?.usb_3_2_gen_2)}
+              {renderField('USB 3.2 Gen 2x2', f.usb_headers?.usb_3_2_gen_2x2)}
+              {renderField('USB 4.0', f.usb_headers?.usb_4)}
+              {renderField('ECC Support', f.ecc_support)}
+              {renderField('RAID Support', f.raid_support)}
+              {renderField('BIOS Flashback', f.bios_features?.flashback)}
+              {renderField('Clear CMOS Button', f.bios_features?.clear_cmos)}
+              {renderField('Audio Chipset', f.audio?.chipset)}
+              {renderField('Audio Channels', f.audio?.channels)}
+              {renderField('Back Panel Ports', f.back_panel_ports?.join(', '))}
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
+    
+        case 'GPU':
+          return (
+            <>
+              {renderField('Chipset', f.chipset)}
+              {renderField('Memory', f.memory)}
+              {renderField('Memory Type', f.memory_type)}
+              {renderField('Base Clock', f.core_base_clock)}
+              {renderField('Boost Clock', f.core_boost_clock)}
+              {renderField('Memory Clock', f.effective_memory_clock)}
+              {renderField('Memory Bus', f.memory_bus)}
+              {renderField('Interface', f.interface)}
+              {renderField('Length', f.length)}
+              {renderField('TDP', f.tdp)}
+              {renderField('HDMI 2.1', f.video_outputs?.hdmi_2_1)}
+              {renderField('DisplayPort 2.1', f.video_outputs?.displayport_2_1)}
+              {renderField('Cooling', f.cooling)}
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
+    
+        case 'RAM':
+          return (
+            <>
+              {renderField('Speed', f.speed)}
+              {renderField('Type', f.ram_type)}
+              {renderField('Form Factor', f.form_factor)}
+              {renderField('Capacity', f.capacity)}
+              {renderField('Modules', f.modules?.quantity)}
+              {renderField('Per Module', f.modules?.capacity_gb)}
+              {renderField('CAS Latency', f.cas_latency)}
+              {renderField('Timings', f.timings)}
+              {renderField('Voltage', f.voltage)}
+              {renderField('Heat Spreader', f.heat_spreader)}
+              {renderField('RGB', f.rgb)}
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
+    
+        case 'CPUCooler':
+          return (
+            <>
+              {renderField('Noise', item.noiseLevel)}
+              {renderField('Fan RPM', item.fanRPM)}
+              {renderField('Water Cooled', item.waterCooled)}
+              {renderField('Air Cooled', item.airCooled)}
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
+    
+        case 'Storage':
+          return (
+            <>
+              {renderField('Capacity', f.capacity)}
+              {renderField('Type', f.type)}
+              {renderField('Form Factor', f.form_factor)}
+              {renderField('Interface', f.interface)}
+              {renderField('NVMe', f.nvme)}
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
+    
+        case 'PSU':
+          return (
+            <>
+              {renderField('Wattage', f.wattage)}
+              {renderField('Form Factor', f.form_factor)}
+              {renderField('Efficiency Rating', f.efficiency_rating)}
+              {renderField('Modularity', f.modular)}
+              {renderField('Length (mm)', f.length)}
+              {renderField('Fanless', f.fanless)}
+              {renderField('Color', f.color)}
+    
+              {/* Connector fields */}
+              {renderField('ATX 24-pin', f.connectors?.atx_24_pin)}
+              {renderField('EPS 8-pin', f.connectors?.eps_8_pin)}
+              {renderField('PCIe 12VHPWR', f.connectors?.pcie_12vhpwr)}
+              {renderField('PCIe 6+2-pin', f.connectors?.pcie_6_plus_2_pin)}
+              {renderField('SATA', f.connectors?.sata)}
+              {renderField('Molex 4-pin', f.connectors?.molex_4_pin)}
+    
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
+    
+        case 'CaseFan':
+          return (
+            <>
+              {renderField('Size (mm)', f.size)}
+              {renderField('Quantity', f.quantity)}
+              {renderField('Min Airflow', f.min_airflow)}
+              {renderField('Max Airflow', f.max_airflow)}
+              {renderField('Min Noise', f.min_noise_level)}
+              {renderField('Max Noise', f.max_noise_level)}
+              {renderField('PWM', f.pwm)}
+              {renderField('LED', f.led)}
+              {renderField('Static Pressure', f.static_pressure)}
+              {renderField('Controller', f.controller)}
+              {renderField('Connector', f.connector)}
+              {renderField('Additional Info', item.additionalFeatures?.join('; '))}
+            </>
+          );
 
       default:
         return <p>No specs available for this category.</p>;

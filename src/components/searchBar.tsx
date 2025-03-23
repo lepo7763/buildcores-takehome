@@ -27,7 +27,7 @@ const SearchBar: React.FC<Props> = ({onSearch}) => {
                 <option value="RAM">RAM</option>
                 <option value="CPUCooler">CPU Cooler</option>
                 <option value="Storage">Storage</option>
-                <option value="PowerSupply">Power Supply</option>
+                <option value="PSU">Power Supply</option>
                 <option value="CaseFan">Case Fan</option>
             </select>
 

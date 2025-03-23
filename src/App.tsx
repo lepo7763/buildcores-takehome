@@ -18,7 +18,6 @@ function App() {
   
   const renderField = (label: string, value: any) => {
     let displayValue = value;
-  
     if (typeof value === 'boolean') {
       displayValue = value ? 'Yes' : 'No';
     } else if (value === null || value === undefined || value === '') {
@@ -26,11 +25,13 @@ function App() {
     }
   
     return (
-      <p>
-        <strong>{label}:</strong> {displayValue}
-      </p>
+      <div className="flex">
+        <span className="w-32 font-semibold">{label}:</span>
+        <span>{displayValue}</span>
+      </div>
     );
   };
+  
   
 
 
@@ -219,15 +220,17 @@ function App() {
       <h1 className="text-xl font-bold p-4">Buildcores Compare</h1>
       <SearchBar onSearch={handleSearch} />
 
-      <div className="grid grid-cols-2 gap-4 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
         {results.map((item, idx) => {
           console.log('Product Item', item);
 
           return (
-          <div key={idx} className="border p-2 rounded shadow">
-            <h2>{item.name}</h2>
-            {renderSpecs(item, item.part_category || 'PCCase')}
-            <button className="mt-2 px-3 py-1 bg-green-500 text-white rounded">
+            <div key={idx} className="bg-white border border-gray-200 shadow-sm rounded-lg p-4 flex flex-col justify-between">
+            <h2 className="font-semibold text-lg mb-2">{item.name}</h2>
+            <div className="text-sm text-gray-700 space-y-1">
+              {renderSpecs(item, item.part_category || "PCCase")}
+            </div>
+            <button className="mt-4 w-full py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded">
               Add to Compare
             </button>
           </div>

@@ -238,7 +238,7 @@ function App() {
       }
       setCompareList([]);
     }
-  
+    setExpandedRows([]);
     setLastQuery(query);
     setLastCategory(category);
     setPage(0);
@@ -555,7 +555,7 @@ function App() {
               const isExpanded = expandedRows.includes(idx);
 
               return (
-                <React.Fragment key={idx}>
+                <React.Fragment key={getUniqueKey(item)}>
                   {/* Main row */}
                   <tr>
                     <td className="td-name">

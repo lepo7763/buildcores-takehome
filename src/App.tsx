@@ -21,7 +21,7 @@ function App() {
             <h2>{item.name}</h2>
             <p>Price: ${item.price}</p>
             <p>Dimensions: {item.dimensions}</p>
-            {/* add more */}
+            {/* add more  */}
             <button className="mt-2 px-3 py-1 bg-green-500 text-white rounded">
               Add to Compare
             </button>

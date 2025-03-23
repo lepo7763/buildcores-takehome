@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import SearchBar from './components/searchBar';
 import { searchParts } from './api/searchParts';
 import './App.css';
+import { compileAst } from 'tailwindcss';
 
 /**
  * 1) Extract specs from an item (skipping "Additional Info").
@@ -209,6 +210,10 @@ function App() {
   const [lastCategory, setLastCategory] = useState('');
   const [PrevCategory, setPrevCategory] = useState('');
   const [warnOnCategorySwitch, setWarnOnCategorySwitch] = useState(true);
+  const isInCompareList = (item: any) => {
+    const key = getUniqueKey(item);
+    return compareList.some((compItem) => getUniqueKey(compItem) === key);
+  }
 
   // Track which rows are expanded
   const [expandedRows, setExpandedRows] = useState<number[]>([]);
@@ -287,17 +292,6 @@ function App() {
       fetchPageData();
     }
   }, [page, lastQuery, lastCategory]);
-
-  useEffect(() => {
-    if (compareList.length > 0) {
-      const confirmReset = window.confirm("Switching categories will clear your current comparisons. Continue?");
-      if (!confirmReset) {
-        setLastCategory(PrevCategory);
-        return;
-      }
-      setCompareList([]);
-    }
-  }, [lastCategory]);
 
   // Render a single field for the expanded row (details)
   const renderField = (label: string, value: any) => {
@@ -441,8 +435,19 @@ function App() {
                         {isExpanded ? 'Hide' : 'Details'}
                       </button>
                       &nbsp;
-                      <button onClick={() => handleAddToCompare(item)}>
-                        Compare
+                      <button 
+                        onClick={() => handleAddToCompare(item)}
+                        disabled={isInCompareList(item)}
+                        style={{
+                          backgroundColor: isInCompareList(item) ? '#888' : '#007bff',
+                          color: 'white',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          cursor: isInCompareList(item) ? 'not-allowed' : 'pointer',
+                          border: 'none',
+                        }}
+                        >
+                          {isInCompareList(item) ? 'In Comparison' : 'Compare'}
                       </button>
                     </td>
                   </tr>

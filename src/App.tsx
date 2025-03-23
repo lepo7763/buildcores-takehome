@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchBar from './components/searchBar';
 import { searchParts } from './api/searchParts';
 import './App.css';
@@ -8,26 +8,44 @@ function App() {
   const [page, setPage] = useState(0);
   const [lastQuery, setLastQuery] = useState('');
   const [lastCategory, setLastCategory] = useState('');
+
+  // Track which rows are expanded
+  const [expandedRows, setExpandedRows] = useState<number[]>([]);
+
+  const handleToggleRow = (rowIndex: number) => {
+    setExpandedRows((prev) => {
+      if (prev.includes(rowIndex)) {
+        // If currently expanded, collapse it
+        return prev.filter((idx) => idx !== rowIndex);
+      } else {
+        // Otherwise expand it
+        return [...prev, rowIndex];
+      }
+    });
+  };
+
   const handleSearch = async (query: string, category: string) => {
     setLastCategory(category);
     setLastQuery(query);
+
     try {
       const skipValue = page * 20;
       const res = await searchParts(query, category, skipValue);
       console.log('API Response: ', res);
       setResults(res.data);
-    } 
-    catch (err) {
+    } catch (err) {
       console.error('Search failed:', err);
     }
   };
 
+  // If page changes, re-run the same search with the new skip
   useEffect(() => {
     if (lastQuery) {
       handleSearch(lastQuery, lastCategory);
     }
   }, [page]);
-  
+
+  // Render a single field as Label: Value
   const renderField = (label: string, value: any) => {
     let displayValue = value;
     if (typeof value === 'boolean') {
@@ -35,16 +53,17 @@ function App() {
     } else if (value === null || value === undefined || value === '') {
       displayValue = 'N/A';
     }
-  
+
     return (
-      <div className="flex">
+      <div className="flex" key={label}>
         <span className="w-32 font-semibold">{label}:</span>
         <span>{displayValue}</span>
       </div>
     );
   };
 
-  const renderSpecs = (item: any, category: string) => {
+  const renderSpecs = (item: any) => {
+    const category = item.part_category || 'PCCase';
     const f = item.v2Fields || {};
     const meta = f.metadata || {};
   
@@ -229,22 +248,66 @@ function App() {
       <h1 className="text-xl font-bold p-4">Buildcores Compare</h1>
       <SearchBar onSearch={handleSearch} />
 
-      <div className="results-container">
-        {results.map((item, idx) => {
-          console.log('Product Item', item);
+      {/* Table container */}
+      <div className="table-container">
+        <table className="parts-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Form</th>
+              <th>Price</th>
+              <th></th> {/* for the +Add or Details button */}
+            </tr>
+          </thead>
+          <tbody>
+            {results.map((item, idx) => {
+              const formFactor = item.v2Fields?.form_factor || '—';
+              const price = item.price !== undefined ? `$${item.price}` : '—';
+              const isExpanded = expandedRows.includes(idx);
 
-          return (
-            <div key={idx} className="item-card">
-              <h2 className="font-semibold text-lg p-4">{item.name}</h2>
-  
-              <div className="card-dropdown text-sm text-gray-700 space-y-1">
-                {renderSpecs(item, item.part_category || "PCCase")}
-                <button className="compare-btn">Add to Compare</button>
-              </div>
-            </div>
-          );
-        })}
+              return (
+                <React.Fragment key={idx}>
+                  {/* Main row */}
+                  <tr>
+                    <td className="td-name">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="product-image"
+                          style={{ width: '40px', height: '40px', objectFit: 'cover' }}
+                        />
+                        <span>{item.name}</span>
+                      </div>
+                    </td>
+                    <td>{formFactor}</td>
+                    <td>{price}</td>
+                    <td>
+                      <button
+                        className="add-button"
+                        onClick={() => handleToggleRow(idx)}
+                      >
+                        {isExpanded ? 'Hide' : 'Details'}
+                      </button>
+                    </td>
+                  </tr>
+
+                  {/* Expanded specs row */}
+                  <tr data-expanded={isExpanded ? 'true' : 'false'}>
+                    <td colSpan={4} style={{ padding: 0 }}>
+                      <div className="collapsible-container">
+                        {renderSpecs(item)}
+                      </div>
+                    </td>
+                  </tr>
+                </React.Fragment>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
+
+      {/* pagination-controls */}
       <div className="pagination-controls" style={{ marginTop: '1rem' }}>
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
@@ -255,7 +318,6 @@ function App() {
         <span style={{ margin: '0 1rem' }}>Page: {page + 1}</span>
         <button onClick={() => setPage((prev) => prev + 1)}>Next</button>
       </div>
-
     </div>
   );
 }

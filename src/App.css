@@ -1,77 +1,84 @@
-/* Dark background + light text on the body */
+/* Dark overall background & text */
 body, #root {
-  background-color: #1a1a1a; /* Dark gray/charcoal */
-  color: #f0f0f0;           /* Lighter text color */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
+  background-color: #1a1a1a;
+  color: #f0f0f0;
   margin: 0;
   padding: 2rem;
   box-sizing: border-box;
-  text-align: center;
+  font-family: sans-serif;
 }
 
-/* Item card with a slightly lighter dark background */
-.item-card {
-  position: relative;
-  width: 300px;
-  margin-bottom: 1rem;
-  border: 1px solid #444;   /* Darker border */
-  border-radius: 6px;
-  background: #2a2a2a;      /* Slightly lighter than body */
-  color: #f0f0f0;
-  transition: box-shadow 0.2s ease;
-  padding: 1rem;
-}
-
-.item-card:hover {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-}
-
-/* Dropdown with an even lighter dark background + subtle border */
-.card-dropdown {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
+/* Table container: maybe a max-width and center it */
+.table-container {
+  max-width: 900px;
   width: 100%;
-  background: #3a3a3a;      /* A bit lighter than .item-card */
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid #555;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.8);
-  z-index: 10;
+  margin: 0 auto;
+  overflow-x: auto; /* scroll if too wide */
+}
+
+/* The table styling */
+.parts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.parts-table thead {
+  background: #2a2a2a;
+}
+
+.parts-table th,
+.parts-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #444;
   text-align: left;
-  color: #f0f0f0;
 }
 
-.item-card:hover .card-dropdown {
-  display: block;
+.parts-table th {
+  font-weight: 600;
 }
 
-/* Button with a darkish accent color */
-.item-card .compare-btn {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: #00a676;      /* Teal accent */
-  color: #fff;
-  border-radius: 4px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-}
-.compare-btn:hover {
-  background: #009968;
-}
-
-/* Container spacing as before */
-.results-container {
+.td-name {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 2rem;
+  align-items: center;
+}
+
+/* The product image in the first column */
+.product-image {
+  border-radius: 4px;
+}
+
+/* The +Add / Details button */
+.add-button {
+  background-color: #333;
+  color: #f0f0f0;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-button:hover {
+  background-color: #444;
+}
+
+/* Hover highlight for table rows */
+.parts-table tr:hover {
+  background: #2a2a2a;
+}
+
+/* Collapsible row animation */
+.collapsible-container {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 1rem; /* horizontal padding for specs */
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+/* We'll store whether it's expanded in a data attribute on the <tr> */
+tr[data-expanded="true"] .collapsible-container {
+  max-height: 800px; /* large enough to reveal content */
+  opacity: 1;
+  padding: 1rem; /* re-add vertical padding when open */
 }

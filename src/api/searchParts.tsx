@@ -1,4 +1,5 @@
-// searchParts.ts
+// src/api/searchParts.ts
+
 export const searchParts = async (query: string, category: string, skip: number = 0) => {
     const payload = {
       filters: [],
@@ -7,9 +8,11 @@ export const searchParts = async (query: string, category: string, skip: number 
       search_query: query.trim(),
       show_disabled_interactive_models: true,
       show_interactive_first: false,
-      skip,       // <-- use the skip parameter passed in
+      skip,
       sort: 0
     };
+  
+    console.log("Sending payload to API:", payload);
   
     const res = await fetch('https://www.api.buildcores.com/api/official/database/parts', {
       method: 'POST',
@@ -23,6 +26,8 @@ export const searchParts = async (query: string, category: string, skip: number 
       throw new Error(`API request failed: ${res.status}`);
     }
   
-    return res.json();
+    const data = await res.json();
+    console.log("API response:", data);
+    return data;
   };
   

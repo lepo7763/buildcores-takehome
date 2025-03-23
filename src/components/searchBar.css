@@ -1,73 +1,77 @@
-/* SearchBar Container */
-.search-bar-form {
-    padding: 1rem;
+/* Container styling */
+form {
     display: flex;
     align-items: center;
-    gap: 1rem;
     flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
   }
   
-  /* Dropdown */
-  .search-bar-form select {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #444;
-    border-radius: 6px;
-    background-color: #2a2a2a;
-    color: #f0f0f0;
-    font-size: 0.95rem;
-    transition: border 0.2s ease;
-  }
-  
-  .search-bar-form select:focus {
-    outline: none;
-    border-color: #007bff;
-  }
-  
-  /* Text Input */
-  .search-bar-form input[type="text"] {
-    padding: 0.5rem 0.75rem;
+  /* Dropdown menu */
+  select {
+    padding: 0.5rem 1rem;
     border: 1px solid #444;
     border-radius: 6px;
     background-color: #1e1e1e;
     color: #f0f0f0;
-    width: 16rem;
     font-size: 0.95rem;
-    transition: border 0.2s ease;
   }
   
-  .search-bar-form input[type="text"]:focus {
+  select:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #4f9ef9;
+    box-shadow: 0 0 0 2px rgba(79, 158, 249, 0.3);
   }
   
-  /* Buttons */
-  .search-bar-form button {
-    padding: 0.5rem 0.75rem;
+  /* Search input */
+  input[type="text"] {
+    padding: 0.5rem 1rem;
+    border: 1px solid #444;
     border-radius: 6px;
-    font-size: 0.9rem;
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    font-size: 0.95rem;
+    width: 16rem;
+  }
+  
+  input[type="text"]::placeholder {
+    color: #aaa;
+  }
+  
+  input[type="text"]:focus {
+    outline: none;
+    border-color: #4f9ef9;
+    box-shadow: 0 0 0 2px rgba(79, 158, 249, 0.3);
+  }
+  
+  /* Primary button (Search) */
+  button[type="submit"] {
+    background-color: #4f9ef9;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: none;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s ease;
-    border: none;
   }
   
-  /* Search Button */
-  .search-bar-form button[type="submit"] {
-    background-color: #007bff;
-    color: white;
+  button[type="submit"]:hover {
+    background-color: #2f7de0;
   }
   
-  .search-bar-form button[type="submit"]:hover {
-    background-color: #005bb5;
+  /* Toggle button */
+  button:not([type="submit"]) {
+    background-color: #2a2a2a;
+    color: #ccc;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
   }
   
-  /* Toggle Warning Button */
-  .search-bar-form button:not([type="submit"]) {
-    background-color: #444;
-    color: #f0f0f0;
-  }
-  
-  .search-bar-form button:not([type="submit"]):hover {
-    background-color: #666;
+  button:not([type="submit"]):hover {
+    background-color: #3a3a3a;
   }
   

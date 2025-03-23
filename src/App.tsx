@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import SearchBar from './components/searchBar';
+import { searchParts } from './api/searchParts';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [results, setResults] = useState<any[]>([]);
+  const handleSearch = async (query: string) => {
+    const res = await searchParts(query);
+    setResults(res.data);
+
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h1 className="text-xl font-bold p-4">Buildcores Compare</h1>
+      <SearchBar onSearch={handleSearch} />
+
+      <div className="grid grid-cols-2 gap-4 p-4">
+        {results.map((item, idx) => (
+          <div key={idx} className="border p-2 rounded shadow">
+            <h2>{item.name}</h2>
+            <p>Price: ${item.price}</p>
+            <p>Dimensions: {item.dimensions}</p>
+            {/* You can customize what fields to show */}
+            <button className="mt-2 px-3 py-1 bg-green-500 text-white rounded">
+              Add to Compare
+            </button>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import SearchBar from './components/searchBar';
 import { searchParts } from './api/searchParts';
+import './App.css';
 
 function App() {
   const [results, setResults] = useState<any[]>([]);

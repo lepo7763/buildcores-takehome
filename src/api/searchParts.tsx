@@ -9,11 +9,6 @@ export const searchParts = async (query: string, category: string) => {
       skip: 0,
       sort: 0
     };
-
-    if (!query.trim()) {
-        console.warn("Empty query");
-        return {data: []};
-    }
   
     console.log("Sending payload to API:", payload); // log for debug
   

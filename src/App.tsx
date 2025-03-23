@@ -31,7 +31,7 @@ function App() {
   };
 
   const fetchPageData = async () => {
-    if (!lastQuery || !lastCategory) return;
+    if (!lastQuery.trim() || !lastCategory) return;
 
     try {
       const skipValue = page * 20;
@@ -46,7 +46,10 @@ function App() {
 
   // If page changes, re-run the same search with the new skip
   useEffect(() => {
-    fetchPageData();
+    console.log("Fetching page data for:", lastQuery, lastCategory, page);
+    if (lastQuery && lastCategory) {
+      fetchPageData();
+    }
   }, [page, lastQuery, lastCategory]);
 
   // Render a single field as Label: Value

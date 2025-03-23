@@ -226,11 +226,22 @@ function App() {
   };
 
   const handleSearch = (query: string, category: string) => {
+    if (
+      compareList.length > 0 &&
+      category !== lastCategory &&
+      warnOnCategorySwitch
+    ) {
+      const confirmed = window.confirm("Switching categories will clear your current comparisons. Continue?");
+      if (!confirmed) return;
+      setCompareList([]);
+    }
+  
     setPrevCategory(lastCategory);
     setLastQuery(query);
     setLastCategory(category);
     setPage(0);
   };
+  
 
   const fetchPageData = async () => {
     if (!lastCategory) return;

@@ -253,6 +253,7 @@ function App() {
       const skipValue = page * 20;
       const res = await searchParts(lastQuery, lastCategory, skipValue);
       setResults(res.data);
+      console.log('API data:', res.data);
     } catch (err) {
       console.error('Search failed', err);
     }

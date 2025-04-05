@@ -530,7 +530,7 @@ function App() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold p-4">Compare Buildcores PC Components</h1>
+      <h1 className="text-xl font-bold p-4">Compare PC Components</h1>
       <SearchBar 
         onSearch={handleSearch}
         warnOnCategorySwitch={warnOnCategorySwitch}

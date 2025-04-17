@@ -1,6 +1,6 @@
 # What?
 
-This is a take-home from BuildCores, where I reverse-engineered their API and created this website with React + TypeScript to call the API. 
+This is a take-home interview assignment where I reverse-engineered their API and created this website with React + TypeScript to call the API. 
 
 ## Where?
 
